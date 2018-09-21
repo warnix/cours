@@ -53,13 +53,14 @@ int strcmp(const char *s1, const char *s2){
 }
 
 int main(void) {
-  char str[10]="abcde";
+  char str[10]="abcde";;
   int taille = strlen(str);
   printf("taille de la chaine : %d\n", taille);
   char str2[]="sgft";
   int taille2 = strlen(str2);
   printf("taille de la chaine2 : %d\n", taille2);
   strcat(str,str2);
+  
   printf("chaine concat %s\n", str);
   char str3[]="aaaa";
   char str4[]="aaaab";
