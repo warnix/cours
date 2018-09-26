@@ -1,25 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
+<h1>Multiplication</h1>
 <?php
-include 'backhome.html';
-echo "Mutiplication";
-createGrill();
-?>
-</body>
-</html>
-
-
-<?php
-function createGrill()
-{
-  echo "<table> ";
+  echo "Une page avec une table de Mutiplication 10x10<br><br>";
+  echo "<table>";
   for($i = 1; $i <= 10;$i++){
     echo "<tr>";
     for($j = 1; $j <= 10;$j++){
@@ -30,5 +12,4 @@ function createGrill()
     echo "</tr>";
   }
   echo "</table>";
-}
 ?>
