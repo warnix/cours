@@ -20,4 +20,6 @@ printf("taille de l'équipe %d\n",sizeof(equipe));
 for (int i = 0; i<5; i++){
   printf("adresse de t = %p\n", (void*) &equipe[i]);
 }
+
+return EXIT_SUCCESS;
 }
