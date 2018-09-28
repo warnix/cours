@@ -56,6 +56,17 @@ int ajouter_personne(struct Annuaire *ptr_annuaire, const struct Personne *ptr_n
   return EXIT_SUCCESS;
 }
 
+//lis un fichier et l'intégre à un annuaire
+int lire_fichier( struct Annuaire *ptr_annuaire, const char *nomfic )
+{
+  //todo
+}
+//écris le contenu d'un annuaire dans un fichier
+int ecrire_fichier( const struct Annuaire *ptr_annuaire, const char *nomfic )
+{
+  //todo
+}
+
 int main(void)
 {
   struct Date date = {31, 10, 1999};
@@ -66,16 +77,14 @@ int main(void)
   struct Annuaire annuaire;
   annuaire.taille = 4;
   annuaire.tableau = malloc(annuaire.taille * sizeof(struct Personne));
-
   annuaire.tableau[0].nom = "test";
   annuaire.tableau[0].prenom = "test2";
   annuaire.tableau[0].naissance = date;
-
   annuaire.tableau[1]=p2;
   annuaire.tableau[2]=p3;
   annuaire.tableau[3]=p4;
-  afficher_annuaire(&annuaire);
-  ajouter_personne(&annuaire, &p1);
-  afficher_annuaire(&annuaire);
+
+
+
   return EXIT_SUCCESS;
 }
