@@ -48,21 +48,49 @@ int ajouter_personne(struct Annuaire *ptr_annuaire, const struct Personne *ptr_n
 {
   printf("-- ajout d'une personne --\n");
   int tmp = (int)ptr_annuaire->taille;
-  ptr_annuaire->taille = tmp+1;
+  ptr_annuaire->taille++;
   ptr_annuaire->tableau =
-      realloc(ptr_annuaire->tableau, (tmp+1) * sizeof(struct Personne));
+      realloc(ptr_annuaire->tableau, (tmp + 1) * sizeof(struct Personne));
   ptr_annuaire->tableau[tmp] = *ptr_nouveau;
 
   return EXIT_SUCCESS;
 }
 
 //lis un fichier et l'intégre à un annuaire
-int lire_fichier( struct Annuaire *ptr_annuaire, const char *nomfic )
+int lire_fichier(struct Annuaire *ptr_annuaire, const char *nomfic)
 {
-  //todo
+  printf("je suis rentrer ici1\n");
+  char c[50] = "";
+  FILE *f = fopen(nomfic, "r");
+  printf("je suis rentrer ici2\n");
+  if (f == NULL)
+  {
+    printf("Could not open file\n");
+    return 0;
+  }
+  else
+  {
+    while (1)
+    {
+      fgets(c, 50, f);
+      if (feof(f))
+      {
+        break;
+      }
+      char *nom = strtok(c, ";");
+      while (nom != NULL)
+      {
+        printf("%s\n", nom);
+        nom = strtok(NULL, ";");
+      }
+      //printf("%s", c);
+    }
+    fclose(f);
+  }
 }
+
 //écris le contenu d'un annuaire dans un fichier
-int ecrire_fichier( const struct Annuaire *ptr_annuaire, const char *nomfic )
+int ecrire_fichier(const struct Annuaire *ptr_annuaire, const char *nomfic)
 {
   //todo
 }
@@ -80,11 +108,11 @@ int main(void)
   annuaire.tableau[0].nom = "test";
   annuaire.tableau[0].prenom = "test2";
   annuaire.tableau[0].naissance = date;
-  annuaire.tableau[1]=p2;
-  annuaire.tableau[2]=p3;
-  annuaire.tableau[3]=p4;
+  annuaire.tableau[1] = p2;
+  annuaire.tableau[2] = p3;
+  annuaire.tableau[3] = p4;
 
-
+  lire_fichier(&annuaire, "personne.txt");
 
   return EXIT_SUCCESS;
 }

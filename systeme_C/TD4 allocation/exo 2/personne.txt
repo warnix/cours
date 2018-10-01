@@ -1,0 +1,7 @@
+pierre;caillou;31,10,1999
+pier;cail;31,10,1999
+bloup;eau;31,10,1999
+blap;feu;31,10,1999
+blip;foudre;31,10,1999
+
+
