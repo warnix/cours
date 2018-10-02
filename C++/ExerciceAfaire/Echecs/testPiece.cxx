@@ -42,13 +42,14 @@ int main(int argc, char **argv)
   assert(!compare(p1, p2));
   assert(compare(p2, p3));
 
-  /*création de deux joueurs
+  //création de deux joueurs
   Joueur jb = Joueur(true);
   Joueur jn = Joueur(false);
 
+  //affichage de leurs pions
   jb.affiche();
   jn.affiche();
-  */
+  
 
   // les objets definis dans cette fonction sont automatiquement d�truits.
   // Ex : p1, p2
