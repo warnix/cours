@@ -8,26 +8,28 @@
 #define Piece_h
 
 /**
- * Declaration d'une classe mod�lisant une piece de jeu d'echec.
+ * Declaration d'une classe modélisant une piece de jeu d'echec.
  */
-class Piece 
+class Piece
 {
 private:
   int m_x;
   int m_y;
   bool m_white;
-  
+
 public:
   Piece();
   ~Piece();
-  Piece( int x, int y, bool white );
-  void init( int x, int y, bool white );
-  void move( int x, int y );
-  int x();
-  int y();
-  bool isWhite();
-  bool isBlack();
-  void affiche();
-}; 
+  Piece(int x, int y, bool white);
+  Piece(const Piece &autre);
+  Piece &operator=(const Piece &autre);
+  void init(int x, int y, bool white);
+  void move(int x, int y);
+  int x() const;
+  int y() const;
+  bool isWhite() const;
+  bool isBlack() const;
+  void affiche() const;
+};
 
 #endif // !defined Piece_h

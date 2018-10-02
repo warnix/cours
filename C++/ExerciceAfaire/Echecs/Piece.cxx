@@ -13,62 +13,73 @@ using namespace std;
 
 Piece::Piece()
 {
-  //cout << "une piece construite par défaut" << endl;
+  cout << "une piece construite par défaut" << endl;
 }
 
 Piece::~Piece()
 {
-  //cout << "une piece détruite" << endl;
+  cout << "une piece détruite" << endl;
 }
 
 Piece::Piece(int x, int y, bool white)
 {
-  //cout << "une piece construite" << endl;
-  init(x,y,white);
+  cout << "une piece construite" << endl;
+  init(x, y, white);
 }
-void
-Piece::init( int x, int y, bool white )
+
+Piece::Piece(const Piece &autre)
+{
+  m_x = autre.m_x;
+  m_y = autre.m_y;
+  m_white = autre.m_white;
+  cout << "une piece construite par défaut" << endl;
+}
+
+Piece &
+Piece::operator=(const Piece &autre)
+{
+  m_x = autre.m_x;
+  m_y = autre.m_y;
+  m_white = autre.m_white;
+  cout << "une piece affectée" << endl;
+  return *this;
+}
+
+void Piece::init(int x, int y, bool white)
 {
   m_x = x;
   m_y = y;
   m_white = white;
 }
 
-void
-Piece::move( int x, int y )
+void Piece::move(int x, int y)
 {
   m_x = x;
   m_y = y;
 }
 
-int
-Piece::x()
+int Piece::x() const
 {
   return m_x;
 }
 
-int
-Piece::y()
+int Piece::y() const
 {
   return m_y;
 }
 
-bool
-Piece::isWhite()
+bool Piece::isWhite() const
 {
   return m_white;
 }
 
-bool
-Piece::isBlack()
-{ 
+bool Piece::isBlack() const
+{
   return !m_white;
 }
 
-void
-Piece::affiche()
+void Piece::affiche() const
 {
   cout << "Piece: x=" << m_x << " y=" << m_y << " "
-       << ( m_white ? "blanche" : "noire" ) << endl;
+       << (m_white ? "blanche" : "noire") << endl;
 }
-
