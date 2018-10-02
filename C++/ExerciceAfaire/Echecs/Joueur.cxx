@@ -11,14 +11,28 @@
 // Pour utiliser les flux de iostream sans mettre "std::" tout le temps.
 using namespace std;
 
-Joueur::Joueur(bool couleur)
+Joueur::Joueur(bool white)
 {
-    
+  couleur = white;
+  int p = 0;
+  int y = (couleur) ? 1 : 8;
+  for (int x = 1; x <= 8; x++)
+  {
+    m_piece[p++].init(x, y, couleur);
+  }
+  y = (couleur) ? 2 : 7;
+  for (int x = 1; x <= 8; x++)
+  {
+    m_piece[p++].init(x, y, couleur);
+  }
 }
 
-void
-Joueur::affiche()
+void Joueur::affiche()
 {
-  cout << "Joueur: couleur=" << endl;
+  cout << "la couleur du joueur est "
+       << (couleur ? "white" : "black") << endl;
+  for (int i = 0; i < 16; i++)
+  {
+    m_piece[i].affiche();
+  }
 }
-

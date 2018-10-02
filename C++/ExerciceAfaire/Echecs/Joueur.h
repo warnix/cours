@@ -15,9 +15,9 @@ class Joueur
 {
 private:
   Piece m_piece[16]; 
-  
+  bool couleur;
 public:
-  Joueur(bool white);
+  Joueur(bool couleur);
   void affiche();
 }; 
 
