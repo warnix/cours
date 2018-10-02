@@ -59,10 +59,9 @@ int ajouter_personne(struct Annuaire *ptr_annuaire, const struct Personne *ptr_n
 //lis un fichier et l'intégre à un annuaire
 int lire_fichier(struct Annuaire *ptr_annuaire, const char *nomfic)
 {
-  printf("je suis rentrer ici1\n");
   char c[50] = "";
+  char *str;
   FILE *f = fopen(nomfic, "r");
-  printf("je suis rentrer ici2\n");
   if (f == NULL)
   {
     printf("Could not open file\n");
@@ -70,29 +69,42 @@ int lire_fichier(struct Annuaire *ptr_annuaire, const char *nomfic)
   }
   else
   {
-    while (1)
+    while (!feof(f))
     {
       fgets(c, 50, f);
-      if (feof(f))
+      struct Personne p = {"", "", NULL};
+      str = strtok(c, ";");
+      while (str != NULL)
       {
-        break;
+        printf("%s", str);
+        str = strtok(NULL, ";");
       }
-      char *nom = strtok(c, ";");
-      while (nom != NULL)
-      {
-        printf("%s\n", nom);
-        nom = strtok(NULL, ";");
-      }
-      //printf("%s", c);
+      printf("\n");
     }
     fclose(f);
   }
+  return EXIT_SUCCESS;
 }
 
 //écris le contenu d'un annuaire dans un fichier
 int ecrire_fichier(const struct Annuaire *ptr_annuaire, const char *nomfic)
 {
-  //todo
+  FILE *f = fopen(nomfic, "a");
+  if (f == NULL)
+  {
+    printf("Could not open file\n");
+    return 0;
+  }
+  else
+  {
+    for (int i = 0; i < (ptr_annuaire->taille); i++)
+    {
+      fprintf(f, "\n%s;", ptr_annuaire->tableau[i].nom);
+      fprintf(f, "%s;", ptr_annuaire->tableau[i].prenom);
+      fprintf(f, "%d", ptr_annuaire->tableau[i].naissance.annee);
+    }
+    fclose(f);
+  }
 }
 
 int main(void)
@@ -103,7 +115,7 @@ int main(void)
   struct Personne p3 = {"erwan", "ghgh", date};
   struct Personne p4 = {"guill", "rttt", date};
   struct Annuaire annuaire;
-  annuaire.taille = 4;
+  annuaire.taille = 5;
   annuaire.tableau = malloc(annuaire.taille * sizeof(struct Personne));
   annuaire.tableau[0].nom = "test";
   annuaire.tableau[0].prenom = "test2";
@@ -111,7 +123,13 @@ int main(void)
   annuaire.tableau[1] = p2;
   annuaire.tableau[2] = p3;
   annuaire.tableau[3] = p4;
+  annuaire.tableau[4] = p1;
 
+printf("\n---lire fichier avant écriture---\n");
+  lire_fichier(&annuaire, "personne.txt");
+  printf("\n---écriture dans le fichier---\n");
+  ecrire_fichier(&annuaire, "personne.txt");
+  printf("\n---lire fichier après écriture---\n");
   lire_fichier(&annuaire, "personne.txt");
 
   return EXIT_SUCCESS;
