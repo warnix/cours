@@ -4,9 +4,22 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "test_testPiece",
+            "label": "task_testPiece",
             "type": "shell",
-            "command": "cd C++/ExerciceAfaire/Echecs/;make clean; make; ./testPiece"
+            "command": "cd C++/ExerciceAfaire/Echecs/;make clean; make; ./testPiece",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "task_systemeC",
+            "type": "shell",
+            "command": "cd systeme_C/code_systeme/;gcc systeme.c; ./a.out",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
