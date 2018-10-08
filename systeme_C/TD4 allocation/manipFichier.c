@@ -23,7 +23,7 @@ int main(void)
 
   printf("\n---écriture dans le fichier---\n");
   ecrire_fichier(&annuaire, "personne.txt");
-  printf("\n---lire fichier avant écriture---\n");
+  printf("\n---lire fichier après écriture---\n");
   lire_fichier(&annuaire, "personne.txt");
   afficher_annuaire(&annuaire);
 
