@@ -1,4 +1,4 @@
-SRC_CXX=Piece.cxx Joueur.cxx
+SRC_CXX=Piece.cxx Joueur.cxx Echiquier.cxx
 CXXFLAGS+=-std=c++11
 OBJ=${SRC_CXX:.cxx=.o}
 

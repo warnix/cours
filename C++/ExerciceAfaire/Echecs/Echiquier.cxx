@@ -5,17 +5,22 @@
  */
 
 #include <iostream>
+#include <assert.h>
 // A besoin de la declaration de la classe
 #include "Echiquier.h"
+
 
 using namespace std;
 
 /**
- * Constructeur par défaut.
- * Initialise à vide l'echiquier.
+ * Constructeur par dï¿½faut.
+ * Initialise ï¿½ vide l'echiquier.
  */
 Echiquier::Echiquier()
 {
+	for(int i = 0; i<64;i++){
+		m_cases[i] = nullptr;
+	}
 }
 
 
@@ -31,6 +36,8 @@ Echiquier::Echiquier()
 Piece* 
 Echiquier::getPiece( int x, int y )
 {
+	assert(x>=1 && x<=8 && y>=1 && y<=8);
+	return m_cases[(x-1)+8*(y-1)];
 }
 
   
@@ -97,7 +104,7 @@ Echiquier::affiche()
 	{
 	  char c;
 	  Piece* p = getPiece( x, y );
-	  if ( p == 0 ) 
+	  if ( p == nullptr ) 
 	    c = ( ( x + y ) % 2 ) == 0 ? '#' : '.';
 	  else
 	    c = p->isWhite() ? 'B' : 'N';
