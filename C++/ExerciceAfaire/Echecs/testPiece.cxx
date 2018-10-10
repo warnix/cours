@@ -43,16 +43,18 @@ int main(int argc, char **argv)
   // travail sur les passages par référence constante
   assert(!compare(p1, p2));
   assert(compare(p2, p3));
-  //création de deux joueurs
-  Joueur jb = Joueur(true);
-  Joueur jn = Joueur(false);
-
+  
   //affichage de leurs pions
   jb.affiche();
   jn.affiche(); 
   */
 
   Echiquier e;
+  //création de deux joueurs
+  Joueur jb = Joueur(true);
+  Joueur jn = Joueur(false);
+  jb.placerPiece(e);
+  jn.placerPiece(e);
   e.affiche();
 
   // les objets definis dans cette fonction sont automatiquement d�truits.

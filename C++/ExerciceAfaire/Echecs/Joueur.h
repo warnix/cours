@@ -6,7 +6,7 @@
 
 #if !defined Joueur_h
 #define Joueur_h
-
+#include "Echiquier.h"
 #include "Piece.h"
 /**
  * Declaration d'une classe mod�lisant un Joueur de jeu d'echec.
@@ -19,6 +19,7 @@ private:
 public:
   Joueur(bool couleur);
   void affiche();
+  void placerPiece(Echiquier & e);
 }; 
 
 #endif // !defined Joueur_h

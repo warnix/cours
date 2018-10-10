@@ -9,6 +9,7 @@
 
 #include "Piece.h"
 
+
 /**
  * Declaration d'une classe mod�lisant une piece de jeu d'echec.
  */

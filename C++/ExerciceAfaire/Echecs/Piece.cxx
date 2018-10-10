@@ -83,3 +83,9 @@ void Piece::affiche() const
   cout << "Piece: x=" << m_x << " y=" << m_y << " "
        << (m_white ? "blanche" : "noire") << endl;
 }
+
+bool Piece::mouvementValide(Echiquier &e, int x, int y)
+{
+  cout << "mouvement valide de pièce" <<endl;
+  return false;
+}

@@ -7,6 +7,9 @@
 #if !defined Piece_h
 #define Piece_h
 
+//#include "Echiquier.h"
+class Echiquier;
+
 /**
  * Declaration d'une classe modélisant une piece de jeu d'echec.
  */
@@ -30,6 +33,7 @@ public:
   bool isWhite() const;
   bool isBlack() const;
   void affiche() const;
+  bool mouvementValide(Echiquier &e,int x, int y);
 };
 
 #endif // !defined Piece_h

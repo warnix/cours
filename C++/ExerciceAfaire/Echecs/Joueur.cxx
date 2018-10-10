@@ -36,3 +36,10 @@ void Joueur::affiche()
     m_piece[i].affiche();
   }
 }
+
+void Joueur::placerPiece(Echiquier & e)
+{
+  for(int i = 0; i<16;i++){
+    e.placer( m_piece+i );
+  }
+}
