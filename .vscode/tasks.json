@@ -15,7 +15,7 @@
         {
             "label": "task_systemeC",
             "type": "shell",
-            "command": "cd systeme_C/code_systeme/;gcc systeme.c; ./a.out",
+            "command": "cd systeme_C/code_systeme/; make",
             "group": {
                 "kind": "build",
                 "isDefault": true

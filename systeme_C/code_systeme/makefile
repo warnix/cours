@@ -1,7 +1,8 @@
 CC = gcc
 CFLAGS = -std=c11 -Wall -Wextra -pedantic
 
-all: systeme
-systeme:systeme.o StringVector.o
-systeme.o: StringVector.h
+all: main
+main:main.o StringVector.o shell.o
+main.o: StringVector.h shell.h
 StringVector.o: StringVector.h
+shell.o:shell.h
