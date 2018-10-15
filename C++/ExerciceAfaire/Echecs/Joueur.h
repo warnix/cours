@@ -11,15 +11,28 @@
 /**
  * Declaration d'une classe mod�lisant un Joueur de jeu d'echec.
  */
-class Joueur 
+class Joueur
 {
 private:
-  Piece m_piece[16]; 
-  bool couleur;
+  Piece m_piece[16];
+
 public:
-  Joueur(bool couleur);
+  Joueur(bool white);
   void affiche();
-  void placerPiece(Echiquier & e);
-}; 
+  void placerPiece(Echiquier &e);
+  virtual bool isWhite() const = 0;
+};
+class JoueurBlanc : public Joueur
+{
+public:
+  JoueurBlanc();
+  bool isWhite() const;
+};
+class JoueurNoir : public Joueur
+{
+public:
+  JoueurNoir();
+  bool isWhite() const;
+};
 
 #endif // !defined Joueur_h

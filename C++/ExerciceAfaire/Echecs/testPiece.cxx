@@ -51,13 +51,36 @@ int main(int argc, char **argv)
 
   Echiquier e;
   //création de deux joueurs
-  Joueur jb = Joueur(true);
-  Joueur jn = Joueur(false);
+  JoueurBlanc jb;
+  JoueurNoir jn;
   jb.placerPiece(e);
   jn.placerPiece(e);
+
+  Roi rb(true);
+  Roi rn(false);
+  Reine qb(true);
+  Reine qn(false);
+
+  Piece *ptr = nullptr;
+  ptr = e.enleverPiece(5, 1);
+  e.placer(&rb);
+  ptr = e.enleverPiece(4, 1);
+  e.placer(&qb);
+  ptr = e.enleverPiece(5, 8);
+  e.placer(&rn);
+  ptr = e.enleverPiece(4, 8);
+  e.placer(&qn);
+
   e.affiche();
 
+  rb.mouvementValide(e, 1, 1);
+  ptr = &rb;
+  ptr->mouvementValide(e, 1, 1);
+  Roi *rptr = dynamic_cast<Roi *>(ptr);
+  assert(nullptr != rptr);
+  Reine *qptr = dynamic_cast<Reine *>(ptr);
+  assert(nullptr == qptr);
+
   // les objets definis dans cette fonction sont automatiquement d�truits.
-  // Ex : p1, p2
   return 0;
 }

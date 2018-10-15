@@ -13,33 +13,42 @@ using namespace std;
 
 Joueur::Joueur(bool white)
 {
-  couleur = white;
   int p = 0;
-  int y = (couleur) ? 1 : 8;
+  int y = (white) ? 1 : 8;
   for (int x = 1; x <= 8; x++)
   {
-    m_piece[p++].init(x, y, couleur);
+    m_piece[p++].init(x, y, white);
   }
-  y = (couleur) ? 2 : 7;
+  y = (white) ? 2 : 7;
   for (int x = 1; x <= 8; x++)
   {
-    m_piece[p++].init(x, y, couleur);
+    m_piece[p++].init(x, y, white);
   }
 }
 
 void Joueur::affiche()
 {
-  cout << "la couleur du joueur est "
-       << (couleur ? "white" : "black") << endl;
   for (int i = 0; i < 16; i++)
   {
     m_piece[i].affiche();
   }
 }
 
-void Joueur::placerPiece(Echiquier & e)
+void Joueur::placerPiece(Echiquier &e)
 {
-  for(int i = 0; i<16;i++){
-    e.placer( m_piece+i );
+  for (int i = 0; i < 16; i++)
+  {
+    e.placer(m_piece + i);
   }
+}
+
+JoueurBlanc::JoueurBlanc() : Joueur(true){
+}
+JoueurNoir::JoueurNoir() : Joueur(false){
+}
+bool JoueurBlanc::isWhite() const{
+  return true;
+}
+bool JoueurNoir::isWhite() const{
+  return false;
 }

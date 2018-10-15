@@ -81,7 +81,6 @@ public:
    * blanches et N pour les pieces noires.
    */
   void affiche();
-  
 };
 
 #endif // !defined Echiquier_h

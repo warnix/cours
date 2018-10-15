@@ -53,17 +53,19 @@ bool Echiquier::placer(Piece *p)
 	{
 		return false;
 	}
-	else {
-	assert(p->x() >= 1 && p->x() <= 8 
-	&& p->y() >= 1 && p->y() <= 8);
-	int pos = (p->x() - 1) + 8 * (p->y() - 1);
-	if (m_cases[pos] != nullptr)
+	else
 	{
-		return false;
-	}else{
-		m_cases[pos] = p;
-	}
-	return true;
+		assert(p->x() >= 1 && p->x() <= 8 && p->y() >= 1 && p->y() <= 8);
+		int pos = (p->x() - 1) + 8 * (p->y() - 1);
+		if (m_cases[pos] != nullptr)
+		{
+			return false;
+		}
+		else
+		{
+			m_cases[pos] = p;
+		}
+		return true;
 	}
 }
 
@@ -95,6 +97,11 @@ bool Echiquier::deplacer(Piece *p, int x, int y)
 Piece *
 Echiquier::enleverPiece(int x, int y)
 {
+	assert(x >= 1 && x <= 8 && y >= 1 && y <= 8);
+	int pos = (x - 1) + 8 * (y - 1);
+	Piece *tmp = m_cases[pos];
+	m_cases[pos] = nullptr;
+	return tmp;
 }
 
 /**
@@ -105,7 +112,7 @@ Echiquier::enleverPiece(int x, int y)
 void Echiquier::affiche()
 {
 	cout << endl
-			 << "  12345678" << endl;
+		 << "  12345678" << endl;
 	for (int y = 1; y <= 8; ++y)
 	{
 		cout << y << " ";
@@ -116,7 +123,7 @@ void Echiquier::affiche()
 			if (p == nullptr)
 				c = ((x + y) % 2) == 0 ? '#' : '.';
 			else
-				c = p->isWhite() ? 'B' : 'N';
+				c = p->getChar();
 			cout << c;
 		}
 		cout << " " << y << endl;
