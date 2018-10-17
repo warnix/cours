@@ -15,7 +15,7 @@ void string_vector_add(struct StringVector * this,
         const char *end);
 size_t string_vector_size(const struct StringVector * this);
 char * string_vector_get(const struct StringVector * this, size_t index);
-
 struct StringVector split_line(char *line);
+char *strjoinarray(char *dest, char *strings[], size_t number);
 
 #endif /* STRINGVECTOR_H */

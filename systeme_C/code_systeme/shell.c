@@ -40,7 +40,6 @@ void shell_execute_line(struct Shell *s)
     struct StringVector str = split_line(s->line);
     if (str.strings != NULL)
     {
-
         if (strcmp(string_vector_get(&str, 0), "exit") == 0)
         {
             s->running = false;
@@ -52,7 +51,7 @@ void shell_execute_line(struct Shell *s)
         }
         else if (strcmp(string_vector_get(&str, 0), "cd") == 0)
         {
-            if (string_vector_get(&str, 2) == NULL)
+            if (string_vector_get(&str, 1) == NULL)
             {
                 printf("déplacement vers home : \n");
                 chdir(getenv("HOME"));
@@ -60,14 +59,15 @@ void shell_execute_line(struct Shell *s)
             else
             {
                 printf("déplacement vers un fichier : \n");
-                chdir(string_vector_get(&str, 2));
+                chdir(string_vector_get(&str, 1));
             }
         }
         else if (strcmp(string_vector_get(&str, 0), "!") == 0)
         {
             if (string_vector_get(&str, 1) != NULL)
             {
-                printf("rien pour l'intant\n");
+                char *cmd = strjoinarray(cmd,str.strings, string_vector_size(&str));
+                system(cmd);
             }
             else
             {
