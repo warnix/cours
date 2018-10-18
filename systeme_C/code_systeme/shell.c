@@ -44,7 +44,7 @@ void shell_execute_line(struct Shell *shell)
     {
         char *name = string_vector_get(&token, 0);
         Action action = get_action(name);
-        action(&shell, &token);
+        action(shell, &token);
         string_vector_free(&token);
     }
 }

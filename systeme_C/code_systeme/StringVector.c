@@ -16,6 +16,7 @@ void string_vector_free(struct StringVector *this)
     {
         free(this->strings[i]);
     }
+    this->strings = NULL;
     free(this->strings);
 }
 
@@ -69,7 +70,6 @@ struct StringVector split_line(char *line)
 char *string_vector_space(char *dest, char *strings[], size_t number)
 {
     char *target = dest;
-    *target;
     for (size_t i = 1; i < number; i++)
     {
         if (i > 1)

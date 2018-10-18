@@ -65,6 +65,7 @@ static void do_system(struct Shell *this, const struct StringVector *args)
         char *cmd = malloc(256 * sizeof(char));
         string_vector_space(cmd, args->strings, args->size);
         system(cmd);
+        cmd = NULL;
         free(cmd);
     }
     else
@@ -75,5 +76,5 @@ static void do_system(struct Shell *this, const struct StringVector *args)
 }
 static void do_execute(struct Shell *this, const struct StringVector *args)
 {
-    printf("non implémenté\n");
+    printf("commande introuvable\n");
 }
