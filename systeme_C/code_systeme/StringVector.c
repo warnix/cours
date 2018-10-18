@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-
+#include <stdio.h>
 #include "StringVector.h"
 
 void string_vector_init(struct StringVector *this, size_t capacity)
@@ -45,7 +45,6 @@ struct StringVector split_line(char *line)
     struct StringVector tokens;
     string_vector_init(&tokens, 8);
     char *start = NULL; // where the current token starts. NULL if no token
-    int i = 0;
     for (char *p = line; (*p != '\0'); p++)
     {
         if (start == NULL)
@@ -67,14 +66,18 @@ struct StringVector split_line(char *line)
     }
     return tokens;
 }
-
-char *strjoinarray(char *dest, char *strings[], size_t number)
+char *string_vector_space(char *dest, char *strings[], size_t number)
 {
     char *target = dest;
-    *target = NULL;
+    *target;
     for (size_t i = 1; i < number; i++)
     {
-        strcat(target, strcat(strings[i], " "));
+        if (i > 1)
+        {
+            strcat(target, " ");
+            target++;
+        }
+        strcat(target, strings[i]);
         target += strlen(strings[i]);
     };
     return dest;

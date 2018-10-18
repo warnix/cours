@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "StringVector.h"
 #include "shell.h"
+#include "commands.h"
 
 int main()
 {
