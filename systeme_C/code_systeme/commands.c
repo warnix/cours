@@ -51,12 +51,19 @@ static void do_cd(struct Shell *this, const struct StringVector *args)
 }
 static void do_pwd(struct Shell *this, const struct StringVector *args)
 {
-    printf("vous êtes ici : \n");
+    printf("vous êtes ici : ");
+    fflush(stdout);
+    system("pwd");
 }
 static void do_help(struct Shell *this, const struct StringVector *args)
 {
-    printf("    - tapez exit pour arreter\n");
-    printf("    - tapez ! pour lancer le terminal\n");
+    printf("    - tapez \"exit\" pour arreter\n");
+    printf("    - tapez \"cd\" pour vous déplacer\n");
+    printf("    - tapez \"pwd\" pour voir où vous êtes\n");
+    printf("    - tapez \"help\" pour afficher les aides\n");
+    printf("    - tapez \"?\" pour afficher les aides\n");
+    printf("    - tapez \"!\" pour lancer une terminal\n");
+    printf("    - tapez \"! commande\" pour lancer une commande\n");
 }
 static void do_system(struct Shell *this, const struct StringVector *args)
 {
