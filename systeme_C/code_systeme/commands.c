@@ -7,6 +7,7 @@ static void do_pwd(struct Shell *this, const struct StringVector *args);
 static void do_help(struct Shell *this, const struct StringVector *args);
 static void do_system(struct Shell *this, const struct StringVector *args);
 static void do_execute(struct Shell *this, const struct StringVector *args);
+static void do_rappel(struct Shell *this, const struct StringVector *args);
 
 static struct
 {
@@ -19,6 +20,7 @@ static struct
     {.name = "help", .action = do_help},
     {.name = "?", .action = do_help},
     {.name = "!", .action = do_system},
+    {.name = "rappel", .action = do_rappel},
     {.name = NULL, .action = do_execute}};
 
 Action get_action(char *name)
@@ -64,6 +66,7 @@ static void do_help(struct Shell *this, const struct StringVector *args)
     printf("    - tapez \"?\" pour afficher les aides\n");
     printf("    - tapez \"!\" pour lancer une terminal\n");
     printf("    - tapez \"! commande\" pour lancer une commande\n");
+    printf("    - tapez \"RAPPEL nom tmps\" pour lancer un rappelle \"nom\" dans un temps donné en seconde\n");
 }
 static void do_system(struct Shell *this, const struct StringVector *args)
 {
@@ -83,5 +86,9 @@ static void do_system(struct Shell *this, const struct StringVector *args)
 }
 static void do_execute(struct Shell *this, const struct StringVector *args)
 {
-    printf("commande introuvable\n");
+    printf("commande introuvable.\n");
+}
+static void do_rappel(struct Shell *this, const struct StringVector *args)
+{
+    printf("commande \"rappel\" à faire.\n");
 }
