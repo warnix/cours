@@ -1,5 +1,6 @@
 #include "shell.h"
 #include "commands.h"
+#include <sys/types.h>
 
 static void do_exit(struct Shell *this, const struct StringVector *args);
 static void do_cd(struct Shell *this, const struct StringVector *args);
@@ -90,5 +91,47 @@ static void do_execute(struct Shell *this, const struct StringVector *args)
 }
 static void do_rappel(struct Shell *this, const struct StringVector *args)
 {
-    printf("commande \"rappel\" à faire.\n");
+    int digit = 0;
+    if (string_vector_get(args, 1) != NULL)
+    {
+        for (int i = 0; args->strings[1][i] != '\0'; ++i)
+        {
+            if (!isdigit(args->strings[1][i]))
+            {
+                digit = 1;
+            }
+        }
+        if (digit == 0)
+        {
+            pid_t p = fork();
+            if (p == 0)
+            {
+                sleep(atoi(args->strings[1]));
+                if (args->strings[2] != NULL)
+                {
+                    char *cmd = malloc(256 * sizeof(char));
+                    string_vector_space(cmd, args->strings, args->size);
+                    char *str = cmd + strlen(args->strings[1]);
+                    str[(strlen(str))]='\0';
+                    printf("Rappel :%s\n", str);
+                    cmd = NULL;
+                    free(cmd);
+                }
+                else
+                {
+                    printf("Rappel : sans argument\n");
+                    printf("shell:$ "); //pour le design
+                }
+                do_exit(this, args);
+            }
+        }
+        else
+        {
+            printf("erreur d'argument\n");
+        }
+    }
+    else
+    {
+        printf("pas d'argument\n");
+    }
 }

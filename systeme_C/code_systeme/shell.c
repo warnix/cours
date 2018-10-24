@@ -27,7 +27,7 @@ void shell_free(struct Shell *shell)
 }
 void shell_read_line(struct Shell *shell)
 {
-    printf("shell:$ ");
+    printf("shell:$ "); //pour le design
     fflush(stdout);
     shell->line_length = read(STDIN_FILENO, shell->line, TAMPON_SIZE);
     shell->line[shell->line_length] = '\0';
