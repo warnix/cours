@@ -50,5 +50,18 @@ public:
   bool mouvementValide(Echiquier &e, int x, int y);
   char getChar() const;
 };
-
+class Fou : public Piece
+{
+public:
+  Fou(bool white);
+  bool mouvementValide(Echiquier &e, int x, int y);
+  char getChar() const;
+};
+class Tour : public Piece
+{
+public:
+  Tour(bool white);
+  bool mouvementValide(Echiquier &e, int x, int y);
+  char getChar() const;
+};
 #endif // !defined Piece_h
