@@ -5,6 +5,20 @@
 #include <sys/wait.h>
 #include <time.h>
 
+typedef struct Equipe equipe;
+struct Equipe
+{
+    char *nom;
+    int temps;
+};
+
+typedef struct Podium Podium;
+struct Podium
+{
+    struct Equipe *equipes;
+    int taille;
+};
+
 void simuler_equipe(char *equipe)
 {
     int temp;
@@ -26,12 +40,39 @@ void simuler_equipe(char *equipe)
         somme = somme + temp;
     }
     printf("L'équipe %s est arrivée en %ds !\n", equipe, somme);
-    exit(0);
+    exit(somme);
+}
+
+void afficherPodium(struct Podium *podium)
+{
+    printf("Podium :\n");
+    int min;
+    for (int i = 0; i < podium->taille; i++)
+    {
+        min = i;
+        for (int j = i+1; j < podium->taille; j++)
+        {
+            if(podium->equipes[j].temps<podium->equipes[min].temps){
+                min = j;
+            }
+        }
+        if(min != i){
+            struct Equipe tmp = podium->equipes[i];
+            podium->equipes[i]=podium->equipes[min];
+            podium->equipes[min]=tmp;
+        }
+    }
+    for(int i=0; i<podium->taille;i++){
+        printf("%d.equipe %s\n", (i + 1), podium->equipes[i].nom);
+    }
 }
 
 int main(int argc, char **argv)
 {
     pid_t tabPid[argc];
+    struct Podium podium;
+    podium.equipes = malloc(argc * sizeof(struct Equipe));
+    podium.taille = 0;
     printf("* Début Course\n");
     for (int i = 1; i < argc; i++)
     {
@@ -44,9 +85,16 @@ int main(int argc, char **argv)
     }
     for (int i = 1; i < argc; i++)
     {
-        int wstatus;
+        int wstatus = 0;
         waitpid(tabPid[i - 1], &wstatus, 0);
+        if (wstatus > 0)
+        {
+            struct Equipe equipe = {argv[i], wstatus};
+            podium.equipes[podium.taille] = equipe;
+            podium.taille = podium.taille + 1;
+        }
     }
+    afficherPodium(&podium);
     printf("* Fin Course\n");
     return 0;
 }
