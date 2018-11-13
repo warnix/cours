@@ -1,6 +1,6 @@
 SRC_CXX=TabEntier.cc
 CXXFLAGS+=-std=c++11
-OBJ=${SRC_CXX:.cxx=.o}
+OBJ=${SRC_CXX:.cc=.o}
 
 all: testTabEntier
 

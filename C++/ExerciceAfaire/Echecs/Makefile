@@ -8,7 +8,7 @@ testPiece: $(OBJ) testPiece.o
 	$(CXX) $(OBJ) testPiece.o -o testPiece
 
 %.o: %.cxx
-	$(CXX) $(CXXFLAGS) -c $<
+	$(CXX) $(CXXFLAGS) -g -c $<
 
 clean:
 	$(RM) $(OBJ) testPiece.o testPiece *~

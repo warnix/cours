@@ -9,9 +9,8 @@
 
 #include "Piece.h"
 
-
 /**
- * Declaration d'une classe modï¿½lisant une piece de jeu d'echec.
+ * Declaration d'une classe modélisant une piece de jeu d'echec.
  */
 class Echiquier 
 {
@@ -24,8 +23,8 @@ private:
 public:
 
   /**
-   * Constructeur par dï¿½faut.
-   * Initialise ï¿½ vide l'echiquier.
+   * Constructeur par défaut.
+   * Initialise à vide l'echiquier.
    */
   Echiquier();
 
@@ -81,6 +80,7 @@ public:
    * blanches et N pour les pieces noires.
    */
   void affiche();
+  
 };
 
 #endif // !defined Echiquier_h

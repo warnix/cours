@@ -1,4 +1,4 @@
-/** 
+/**
  * Header de Piece.cxx
  *
  * @file Piece.h
@@ -7,11 +7,11 @@
 #if !defined Piece_h
 #define Piece_h
 
-//#include "Echiquier.h"
+//#include "Echiquier.h" // inclusion croisee
 class Echiquier;
 
 /**
- * Declaration d'une classe modélisant une piece de jeu d'echec.
+ * Declaration d'une classe mod�lisant une piece de jeu d'echec.
  */
 class Piece
 {
@@ -22,46 +22,51 @@ protected:
 
 public:
   Piece();
-  ~Piece();
-  Piece(int x, int y, bool white);
-  Piece(const Piece &autre);
-  Piece &operator=(const Piece &autre);
+  virtual ~Piece();
+  Piece( int x, int y, bool white );
+  Piece(const Piece &autre) = delete;
+  Piece & operator=(const Piece & autre) = delete;
   void init(int x, int y, bool white);
-  void move(int x, int y);
+  void move( int x, int y );
+  virtual bool mouvementValide(Echiquier &e, int x, int y);
   int x() const;
   int y() const;
   bool isWhite() const;
   bool isBlack() const;
   void affiche() const;
-  virtual bool mouvementValide(Echiquier &e, int x, int y);
   virtual char getChar() const;
 };
+
 class Roi : public Piece
 {
-public:
-  Roi(bool white);
-  bool mouvementValide(Echiquier &e, int x, int y);
-  char getChar() const;
+  public:
+    Roi(bool white);
+    bool mouvementValide(Echiquier &e, int x, int y);
+    char getChar() const;
 };
-class Reine : public Piece
+
+class Fou : virtual public Piece
 {
-public:
-  Reine(bool white);
-  bool mouvementValide(Echiquier &e, int x, int y);
-  char getChar() const;
+  public:
+    Fou(bool white, bool gauche);
+    bool mouvementValide(Echiquier &e, int x, int y);
+    char getChar() const;
 };
-class Fou : public Piece
+
+class Tour : virtual public Piece
 {
-public:
-  Fou(bool white);
-  bool mouvementValide(Echiquier &e, int x, int y);
-  char getChar() const;
+  public:
+    Tour(bool white, bool gauche);
+    bool mouvementValide(Echiquier &e, int x, int y);
+    char getChar() const;
 };
-class Tour : public Piece
+
+class Reine : public Fou, public Tour
 {
-public:
-  Tour(bool white);
-  bool mouvementValide(Echiquier &e, int x, int y);
-  char getChar() const;
+  public:
+    Reine(bool white);
+    bool mouvementValide(Echiquier &e, int x, int y);
+    char getChar() const;
 };
+
 #endif // !defined Piece_h

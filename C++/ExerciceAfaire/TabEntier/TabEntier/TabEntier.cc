@@ -1,32 +1,28 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-#include "tabgeneric.h"
+#include "TabEntier.h"
 
 using namespace std;
 
 #define MAX_TAB 1000
 
-template <class T>
-TabGeneric<T>::TabGeneric(int nbelem){
+TabEntier::TabEntier(int nbelem){
   taille = nbelem;
-  tableau = new T[taille];
+  tableau = new int[taille];
 }
 
-template <class T>
-TabGeneric<T>::~TabGeneric(){
+TabEntier::~TabEntier(){
   delete[] tableau;
 }
 
-template <class T>
-T
-TabGeneric<T>::operator[](const int i){
+int 
+TabEntier::operator[](const int i){
   return tableau[i];
 }
 
-template <class T>
 void
-TabGeneric<T>::Remplir(){
+TabEntier::Remplir(){
   int i;
 
   /* On initialise la fonction de generation de nombre aleatoire */
@@ -34,15 +30,13 @@ TabGeneric<T>::Remplir(){
 
   /* On remplit le tableau aleatoirement */
   for (i=0; i<taille; i++)
-    tableau[i] = (T)(rand()%MAX_TAB - MAX_TAB / 3.0);
+    tableau[i] = (rand()%MAX_TAB - MAX_TAB / 2);
 
 }
 
-template <class T>
-T
-TabGeneric<T>::Max(){
-  int i;
-  T max;
+int
+TabEntier::Max(){
+  int i, max;
 
   /* On initialise max a la valeur du premier element du tableau */
   max = tableau[0];
@@ -55,9 +49,8 @@ TabGeneric<T>::Max(){
   return max;
 }
 
-template <class T>
 void
-TabGeneric<T>::Print(){
+TabEntier::Print(){
   if (taille < 20)
     {
       for (int i=0; i<taille; i++)
@@ -67,7 +60,3 @@ TabGeneric<T>::Print(){
   else
     cout << "Trop d'elements" << endl;
 }
-
-template class TabGeneric<int>;
-template class TabGeneric<double>;
-template class TabGeneric<char>;
