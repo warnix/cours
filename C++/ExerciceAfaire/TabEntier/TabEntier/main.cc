@@ -1,14 +1,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-#include "TabEntier.h"
+#include "TabGeneric.h"
 
 using namespace std;
 
 #define MAX_TAB 1000
 
 int main(int argc, const char* argv[]) {
-  int max, nbelem;
+  int nbelem;
 
   /* Il faut au moins un parametre pour executer le programme */
   if (argc < 2) {
@@ -19,8 +19,15 @@ int main(int argc, const char* argv[]) {
   /* On recopere le nombre d'elements */
   nbelem = atoi(argv[1]);
 
+  /* Parametre entré non valide*/
+  if(nbelem == 0){
+    cout << "Usage :" << argv[0] << " <entier supérieur à 0 >" << endl;
+    return 1;
+  }
+
   /* Allocation du tableau */
-  TabEntier tableau(nbelem);
+  TabGeneric<char> tableau(nbelem);
+  char max;
 
   /* On remplit le tableau */
   tableau.Remplir();
@@ -31,7 +38,7 @@ int main(int argc, const char* argv[]) {
   /* On affiche le tableau */
   tableau.Print();
 
-  /* On affiche le r�sultat */
+  /* On affiche le résultat */
   cout << "Max : " << max << endl;
 
   return 0;

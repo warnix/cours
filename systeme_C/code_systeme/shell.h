@@ -9,6 +9,9 @@ struct Shell
     int line_number;
     char *line;
     size_t line_length;
+    pid_t pid[25];
+    char* name[25];
+    int current;
 };
 void shell_init(struct Shell *s);
 void shell_run(struct Shell *s);

@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -D_XOPEN_SOURCE=700 -std=c11 -Wall -Wextra -pedantic
+CFLAGS = -D_XOPEN_SOURCE=700 -Wno-unused-parameter -std=c11 -Wall -Wextra -pedantic
 
 all: main
 main:main.o StringVector.o shell.o commands.o

@@ -1,6 +1,8 @@
 #include "shell.h"
 #include "commands.h"
 #include <sys/types.h>
+#include <ctype.h>
+#include <sys/wait.h>
 
 static void do_exit(struct Shell *this, const struct StringVector *args);
 static void do_cd(struct Shell *this, const struct StringVector *args);
@@ -9,6 +11,7 @@ static void do_help(struct Shell *this, const struct StringVector *args);
 static void do_system(struct Shell *this, const struct StringVector *args);
 static void do_execute(struct Shell *this, struct StringVector *args);
 static void do_rappel(struct Shell *this, const struct StringVector *args);
+static void do_jobs(struct Shell *this, const struct StringVector *args);
 
 static struct
 {
@@ -22,6 +25,7 @@ static struct
     {.name = "?", .action = do_help},
     {.name = "!", .action = do_system},
     {.name = "rappel", .action = do_rappel},
+    {.name = "jobs", .action = do_jobs},
     {.name = NULL, .action = do_execute}};
 
 Action get_action(char *name)
@@ -33,7 +37,6 @@ Action get_action(char *name)
     }
     return actions[i].action;
 }
-
 //-------------------------------------------
 static void do_exit(struct Shell *this, const struct StringVector *args)
 {
@@ -94,7 +97,7 @@ static void do_execute(struct Shell *this, struct StringVector *args)
         if (strcmp(name, "&") == 0)
         {
             args->strings[args->size - 1] = NULL;
-            args->size = args->size-1;
+            args->size = args->size - 1;
             arrPlan = 1;
         }
     }
@@ -112,17 +115,19 @@ static void do_execute(struct Shell *this, struct StringVector *args)
         }
         do_exit(this, args);
     }
+
     if (arrPlan == 1)
     {
-        char *dest = malloc(256 * sizeof(char));
-        string_vector_space(dest, args->strings, args->size);
-        dest = strcat(args->strings[0],dest);
-        printf("[%d] %s\n", pid, dest);
-        dest = NULL;
-        free(dest);
+        this->current = this->current + 1;
+        this->name[this->current] = malloc(256 * sizeof(char));
+        string_vector_space(this->name[this->current],args->strings, args->size);
+        char* name =  malloc(256 * sizeof(char));
+        name = strcat(name,args->strings[0]);
+        name = strcat(name," ");
+        this->name[this->current] = strcat(name,this->name[this->current]);
+        this->pid[this->current] = pid;
     }
-    if (arrPlan == 0)
-    {
+    else{
         int status;
         waitpid(pid, &status, 0);
     }
@@ -170,5 +175,15 @@ static void do_rappel(struct Shell *this, const struct StringVector *args)
     else
     {
         printf("pas d'argument\n");
+    }
+}
+static void do_jobs(struct Shell *this, const struct StringVector *args)
+{
+    if (this->current != -1)
+    {
+        for (int i = 0; i <= this->current; i++)
+        {
+            printf("[%d] %s\n", this->pid[i], this->name[i]);
+        }
     }
 }

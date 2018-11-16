@@ -12,6 +12,7 @@ void shell_init(struct Shell *shell)
     shell->line = malloc(TAMPON_SIZE * sizeof(char));
     shell->line_length = 0;
     shell->line_number = 0;
+    shell->current = -1;
 }
 void shell_run(struct Shell *shell)
 {
