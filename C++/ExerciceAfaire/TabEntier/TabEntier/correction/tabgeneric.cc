@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-#include "TabGeneric.h"
+#include "tabgeneric.h"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ TabGeneric<T>::Remplir(){
 
   /* On remplit le tableau aleatoirement */
   for (i=0; i<taille; i++)
-    tableau[i] = (T)('A'+rand()%24);
+    tableau[i] = (T)(rand()%MAX_TAB - MAX_TAB / 3.0);
 
 }
 
@@ -47,7 +47,7 @@ TabGeneric<T>::Max(){
   /* On initialise max a la valeur du premier element du tableau */
   max = tableau[0];
 
-  /* On parcours le tableau ï¿½ la recherche d'un plus grand ï¿½lï¿½ment que max */
+  /* On parcours le tableau à la recherche d'un plus grand élément que max */
   for(i = 1 ; i<taille; i++) {
     if (max < tableau[i]) max = tableau[i];
   }
@@ -61,7 +61,7 @@ TabGeneric<T>::Print(){
   if (taille < 20)
     {
       for (int i=0; i<taille; i++)
-      	cout << tableau[i] << " ";
+	cout << tableau[i] << " ";
       cout << endl;
     }
   else
@@ -70,5 +70,4 @@ TabGeneric<T>::Print(){
 
 template class TabGeneric<int>;
 template class TabGeneric<double>;
-template class TabGeneric<float>;
 template class TabGeneric<char>;

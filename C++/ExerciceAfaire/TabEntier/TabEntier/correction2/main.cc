@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
-#include "TabGeneric.h"
+#include "tabgeneric.h"
 
 using namespace std;
 
@@ -15,12 +15,12 @@ int main(int argc, const char* argv[]) {
     cout << "Usage :" << argv[0] << " <nombre d'element>" << endl;
     return 1;
   }
-
+  
   /* On recopere le nombre d'elements */
   nbelem = atoi(argv[1]);
 
   /* Allocation du tableau */
-  TabGeneric<char> tableau(nbelem);
+  TabGeneric<long, char> tableau(nbelem);
   char max;
 
   /* On remplit le tableau */
@@ -32,8 +32,8 @@ int main(int argc, const char* argv[]) {
   /* On affiche le tableau */
   tableau.Print();
 
-  /* On affiche le rï¿½sultat */
+  /* On affiche le résultat */
   cout << "Max : " << max << endl;
 
   return 0;
-}
+} 

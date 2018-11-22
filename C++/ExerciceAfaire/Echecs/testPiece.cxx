@@ -9,6 +9,7 @@
 #include "Piece.h"
 #include "Joueur.h"
 #include "Echiquier.h"
+#include <assert.h>
 
 // Pour utiliser les flux de iostream sans mettre "std::" tout le temps.
 using namespace std;
@@ -107,4 +108,4 @@ int main( int argc, char** argv )
   // les objets definis dans cette fonction sont automatiquement d�truits.
   // Ex : p1
   return 0;
-}
+} 

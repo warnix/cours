@@ -1,6 +1,3 @@
-#ifndef TABGENERIC_H
-#define TABGENERIC_H
-
 template <class T>
 class TabGeneric
  {
@@ -16,4 +13,4 @@ class TabGeneric
    T  Max();
 };
 
-#endif
+
