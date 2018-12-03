@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <ctype.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 static void do_exit(struct Shell *this, const struct StringVector *args);
 static void do_cd(struct Shell *this, const struct StringVector *args);
@@ -12,6 +13,8 @@ static void do_system(struct Shell *this, const struct StringVector *args);
 static void do_execute(struct Shell *this, struct StringVector *args);
 static void do_rappel(struct Shell *this, const struct StringVector *args);
 static void do_jobs(struct Shell *this, const struct StringVector *args);
+
+struct Shell *shell;
 
 static struct
 {
@@ -88,9 +91,47 @@ static void do_system(struct Shell *this, const struct StringVector *args)
         system("/bin/bash");
     }
 }
+
+void fin_fils(int sig)
+{
+    __pid_t p = wait(NULL);
+    printf("fin de %d!\n", p);
+    do_suprJobs(p);
+    exit(EXIT_SUCCESS);
+}
+
+void do_suprJobs(pid_t p){
+    int i = 0;
+    while(shell->pid[i]!=p){
+        i++;
+    }
+    if(i==shell->current){
+        shell->pid[i]=-1;
+    }else{
+        while(i<shell->current){
+            shell->pid[i]=shell->pid[i+1];
+        }
+        shell->pid[shell->current]=-1;
+    }
+    shell->current = shell->current -1; 
+}
+
+void do_arrPlan(struct Shell *this, const struct StringVector *args, pid_t pid)
+{
+    this->current = this->current + 1;
+    this->name[this->current] = malloc(256 * sizeof(char));
+    string_vector_space(this->name[this->current], args->strings, args->size);
+    char *name = malloc(256 * sizeof(char));
+    name = strcat(name, args->strings[0]);
+    name = strcat(name, " ");
+    this->name[this->current] = strcat(name, this->name[this->current]);
+    this->pid[this->current] = pid;
+}
+
 static void do_execute(struct Shell *this, struct StringVector *args)
 {
-    int arrPlan = 0;
+    shell = this;
+    int isArrPlan = 0;
     if (args->size >= 2)
     {
         char *name = string_vector_get(args, args->size - 1);
@@ -98,11 +139,12 @@ static void do_execute(struct Shell *this, struct StringVector *args)
         {
             args->strings[args->size - 1] = NULL;
             args->size = args->size - 1;
-            arrPlan = 1;
+            isArrPlan = 1;
         }
     }
     printf("  -> execute \n");
-    pid_t pid = fork();
+    signal(SIGCHLD, fin_fils);
+    __pid_t pid = fork();
     if (pid == 0)
     {
         if (args->strings[1] != NULL)
@@ -115,23 +157,17 @@ static void do_execute(struct Shell *this, struct StringVector *args)
         }
         do_exit(this, args);
     }
-
-    if (arrPlan == 1)
+    if (isArrPlan == 1)
     {
-        this->current = this->current + 1;
-        this->name[this->current] = malloc(256 * sizeof(char));
-        string_vector_space(this->name[this->current],args->strings, args->size);
-        char* name =  malloc(256 * sizeof(char));
-        name = strcat(name,args->strings[0]);
-        name = strcat(name," ");
-        this->name[this->current] = strcat(name,this->name[this->current]);
-        this->pid[this->current] = pid;
+        do_arrPlan(this, args, pid);
     }
-    else{
+    else
+    {
         int status;
         waitpid(pid, &status, 0);
     }
 }
+
 static void do_rappel(struct Shell *this, const struct StringVector *args)
 {
     int digit = 0;
