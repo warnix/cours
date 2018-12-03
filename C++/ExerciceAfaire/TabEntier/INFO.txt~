@@ -1,6 +1,0 @@
-Calcul du maximum d'un tableau aléatoire :
-
-- max_bug.cc    : 2 bugs à corriger avec gdb/valgrind.
-- max_ok.cc     : correction.
-- classe_max.cc : exemple de classe C++.
-- classe_max/   : exemple de compilation séparé (makefiles).

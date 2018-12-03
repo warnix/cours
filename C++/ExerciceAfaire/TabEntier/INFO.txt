@@ -1,5 +1,0 @@
-Calcul du maximum d'un tableau aléatoire :
-
-- max_bug.cc    : 2 bugs à corriger avec gdb/valgrind.
-- max_ok.cc     : correction de max_bug.cc .
-- TabEntier/   : exemple de compilation séparé.
