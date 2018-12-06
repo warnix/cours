@@ -95,25 +95,33 @@ static void do_system(struct Shell *this, const struct StringVector *args)
 void fin_fils(int sig)
 {
     __pid_t p = wait(NULL);
-    printf("fin de %d!\n", p);
-    do_suprJobs(p);
-    exit(EXIT_SUCCESS);
+    if (p != -1)
+    {
+        printf("fin de %d!\n", p);
+        do_suprJobs(p);
+    }
 }
 
-void do_suprJobs(pid_t p){
+void do_suprJobs(pid_t p)
+{
     int i = 0;
-    while(shell->pid[i]!=p){
+    while (shell->pid[i] != p)
+    {
         i++;
     }
-    if(i==shell->current){
-        shell->pid[i]=-1;
-    }else{
-        while(i<shell->current){
-            shell->pid[i]=shell->pid[i+1];
-        }
-        shell->pid[shell->current]=-1;
+    if (i == shell->current)
+    {
+        shell->pid[i] = -1;
     }
-    shell->current = shell->current -1; 
+    else
+    {
+        while (i < shell->current)
+        {
+            shell->pid[i] = shell->pid[i + 1];
+        }
+        shell->pid[shell->current] = -1;
+    }
+    shell->current = shell->current - 1;
 }
 
 void do_arrPlan(struct Shell *this, const struct StringVector *args, pid_t pid)
@@ -132,6 +140,7 @@ static void do_execute(struct Shell *this, struct StringVector *args)
 {
     shell = this;
     int isArrPlan = 0;
+    int redirection = isRedirected(args);
     if (args->size >= 2)
     {
         char *name = string_vector_get(args, args->size - 1);
@@ -166,6 +175,11 @@ static void do_execute(struct Shell *this, struct StringVector *args)
         int status;
         waitpid(pid, &status, 0);
     }
+}
+
+int isRedirected(struct StringVector *args){
+    int redirection = 0;
+    
 }
 
 static void do_rappel(struct Shell *this, const struct StringVector *args)
