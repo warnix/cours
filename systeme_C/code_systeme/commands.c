@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <fcntl.h>
 
 static void do_exit(struct Shell *this, const struct StringVector *args);
 static void do_cd(struct Shell *this, const struct StringVector *args);
@@ -92,16 +93,6 @@ static void do_system(struct Shell *this, const struct StringVector *args)
     }
 }
 
-void fin_fils(int sig)
-{
-    __pid_t p = wait(NULL);
-    if (p != -1)
-    {
-        printf("fin de %d!\n", p);
-        do_suprJobs(p);
-    }
-}
-
 void do_suprJobs(pid_t p)
 {
     int i = 0;
@@ -124,6 +115,16 @@ void do_suprJobs(pid_t p)
     shell->current = shell->current - 1;
 }
 
+void fin_fils(int sig)
+{
+    __pid_t p = wait(NULL);
+    if (p != -1)
+    {
+        printf("fin de %d!\n", p);
+        do_suprJobs(p);
+    }
+}
+
 void do_arrPlan(struct Shell *this, const struct StringVector *args, pid_t pid)
 {
     this->current = this->current + 1;
@@ -136,29 +137,73 @@ void do_arrPlan(struct Shell *this, const struct StringVector *args, pid_t pid)
     this->pid[this->current] = pid;
 }
 
+void isRedirected(struct StringVector *args)
+{
+    for (int i = 0; i < (int)args->size; i++)
+    {
+        if (strcmp(args->strings[i], "<") == 0)
+        {
+            int fd_in = open(args->strings[(i + 1)], O_RDONLY, 0644);
+            if (fd_in < 0)
+            {
+                printf("erreur d'ouverture de fichier\n");
+                exit(1);
+            }
+            else
+            {
+                dup2(fd_in, STDIN_FILENO);
+                close(fd_in);
+            }
+        }
+        else if (strcmp(args->strings[i], ">") == 0)
+        {
+            int fd_out = open(args->strings[(i + 1)], O_CREAT | O_TRUNC | O_WRONLY, 0644);
+            if (fd_out < 0)
+            {
+                printf("erreur d'ouverture de fichier\n");
+                exit(1);
+            }
+            else
+            {
+                dup2(fd_out, STDOUT_FILENO);
+                close(fd_out);
+            }
+        }
+    }
+}
+
 static void do_execute(struct Shell *this, struct StringVector *args)
 {
     shell = this;
     int isArrPlan = 0;
-    int redirection = isRedirected(args);
+    int i = 0;
+    char* command[args->size];
+    while (i < (int)args->size 
+    && strcmp(args->strings[i], "&") != 0 
+    && strcmp(args->strings[i], "<") != 0 
+    && strcmp(args->strings[i], ">") != 0)
+    {
+        command[i] = malloc(sizeof(args->strings[i]));
+        strcpy(command[i],args->strings[i]);
+        i++;
+    }
+    command[i]=NULL;
     if (args->size >= 2)
     {
         char *name = string_vector_get(args, args->size - 1);
         if (strcmp(name, "&") == 0)
         {
-            args->strings[args->size - 1] = NULL;
-            args->size = args->size - 1;
             isArrPlan = 1;
         }
     }
-    printf("  -> execute \n");
-    signal(SIGCHLD, fin_fils);
+    //signal(SIGCHLD, fin_fils);
     __pid_t pid = fork();
     if (pid == 0)
     {
+        isRedirected(args);
         if (args->strings[1] != NULL)
         {
-            execvp(args->strings[0], args->strings);
+            execvp(args->strings[0], command);
         }
         else
         {
@@ -175,10 +220,6 @@ static void do_execute(struct Shell *this, struct StringVector *args)
         int status;
         waitpid(pid, &status, 0);
     }
-}
-
-int isRedirected(struct StringVector *args){
-    int redirection = 0;
     
 }
 
