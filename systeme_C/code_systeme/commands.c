@@ -42,10 +42,20 @@ Action get_action(char *name)
     return actions[i].action;
 }
 //-------------------------------------------
+
+/**
+ * Fonction "exit" du shell, 
+ * permet de le quitter 
+ */
 static void do_exit(struct Shell *this, const struct StringVector *args)
 {
     this->running = false;
 }
+
+/**
+ * Fonction "cd" du shell, 
+ * permet l'utilisation de la commande cd 
+ */
 static void do_cd(struct Shell *this, const struct StringVector *args)
 {
     if (string_vector_get(args, 1) != NULL)
@@ -59,12 +69,22 @@ static void do_cd(struct Shell *this, const struct StringVector *args)
         chdir(getenv("HOME"));
     }
 }
+
+/**
+ * Fonction "pwd" du shell, 
+ * permet l'utilisation de la commande pwd 
+ */
 static void do_pwd(struct Shell *this, const struct StringVector *args)
 {
     printf("vous êtes ici : ");
     fflush(stdout);
     system("pwd");
 }
+
+/**
+ * Fonction "help" du shell, 
+ * permet l'affichage de l'aide pour les commandes
+ */
 static void do_help(struct Shell *this, const struct StringVector *args)
 {
     printf("    - tapez \"exit\" pour arreter\n");
@@ -76,6 +96,11 @@ static void do_help(struct Shell *this, const struct StringVector *args)
     printf("    - tapez \"! commande\" pour lancer une commande\n");
     printf("    - tapez \"RAPPEL nom tmps\" pour lancer un rappelle \"nom\" dans un temps donné en seconde\n");
 }
+
+/**
+ * Fonction "!" du shell, 
+ * permet de lancer un sous-shell 
+ */
 static void do_system(struct Shell *this, const struct StringVector *args)
 {
     if (string_vector_get(args, 1) != NULL)
@@ -93,6 +118,9 @@ static void do_system(struct Shell *this, const struct StringVector *args)
     }
 }
 
+/**
+ * #ZONE SUPR JOBS#
+ * code mort, non utilisé
 void do_suprJobs(pid_t p)
 {
     int i = 0;
@@ -114,9 +142,14 @@ void do_suprJobs(pid_t p)
     }
     shell->current = shell->current - 1;
 }
+#FIN ZONE SUPR JOBS#
 
+/**
+ * #ZONE FILS#
+ * code mort, non utilisé
 void fin_fils(int sig)
 {
+    
     __pid_t p = wait(NULL);
     if (p != -1)
     {
@@ -124,7 +157,11 @@ void fin_fils(int sig)
         do_suprJobs(p);
     }
 }
+#FIN ZONE FILS# */ 
 
+/**
+ * Fonction qui passe une commande en arrière plan  
+ */
 void do_arrPlan(struct Shell *this, const struct StringVector *args, pid_t pid)
 {
     this->current = this->current + 1;
@@ -137,6 +174,9 @@ void do_arrPlan(struct Shell *this, const struct StringVector *args, pid_t pid)
     this->pid[this->current] = pid;
 }
 
+/**
+ * Fonction qui met en place les redirections E/S
+ */
 void isRedirected(struct StringVector *args)
 {
     for (int i = 0; i < (int)args->size; i++)
@@ -172,12 +212,12 @@ void isRedirected(struct StringVector *args)
     }
 }
 
-static void do_execute(struct Shell *this, struct StringVector *args)
-{
-    shell = this;
-    int isArrPlan = 0;
+/**
+ * Définition du tableau contenant la commande 
+ * (sans les redirections et/ou arrière plan)
+ */
+void define_command(struct StringVector *args, char *command[args->size]){
     int i = 0;
-    char* command[args->size];
     while (i < (int)args->size 
     && strcmp(args->strings[i], "&") != 0 
     && strcmp(args->strings[i], "<") != 0 
@@ -188,6 +228,19 @@ static void do_execute(struct Shell *this, struct StringVector *args)
         i++;
     }
     command[i]=NULL;
+}
+
+/**
+ * Fonction d'execution du shell, 
+ * permet le lancement de commandes 
+ */
+static void do_execute(struct Shell *this, struct StringVector *args)
+{
+    shell = this;
+    int isArrPlan = 0;
+    char* command[args->size];
+    define_command(args, command);
+
     if (args->size >= 2)
     {
         char *name = string_vector_get(args, args->size - 1);
@@ -223,6 +276,10 @@ static void do_execute(struct Shell *this, struct StringVector *args)
     
 }
 
+/**
+ * Fonction "rappel" du shell, 
+ * permet de lancer un rappel avec un temps 
+ */
 static void do_rappel(struct Shell *this, const struct StringVector *args)
 {
     int digit = 0;
@@ -268,6 +325,12 @@ static void do_rappel(struct Shell *this, const struct StringVector *args)
         printf("pas d'argument\n");
     }
 }
+
+/**
+ * Fonction "jobs" du shell, 
+ * permet d'afficher les fonctions en arrière plan
+ * (non terminé, pas de supression des jobs finis) 
+ */
 static void do_jobs(struct Shell *this, const struct StringVector *args)
 {
     if (this->current != -1)
